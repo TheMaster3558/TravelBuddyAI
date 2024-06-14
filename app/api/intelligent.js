@@ -8,7 +8,7 @@ export async function getSessionThread() {
   if (!session) {
     throw new "Session hasn't initiated."
   }
-  
+
   const thread = await getThreadById(session.thread_id)
   if (!thread) {
     throw new "Thread not found."
@@ -28,12 +28,12 @@ export async function createRun(assistantId, threadId) {
 
 export async function waitUntilNextStep(run, threadId) {
   // Check running status
-  let lastesRun = await openai.beta.threads.runs.retrieve(threadId, run.id)
-  while(lastesRun.status === "queued" || lastesRun.status === "in_progress") {
-    lastesRun = await openai.beta.threads.runs.retrieve(threadId, run.id)
+  let latestRun = await openai.beta.threads.runs.retrieve(threadId, run.id)
+  while (latestRun.status === "queued" || latestRun.status === "in_progress") {
+    latestRun = await openai.beta.threads.runs.retrieve(threadId, run.id)
   }
 
-  return lastesRun
+  return latestRun
 }
 
 export async function submitToolOutputs(threadId, runId, outputs) {
@@ -108,8 +108,8 @@ export async function createOrFindAssistant() {
                   items: {
                     type: "object",
                     properties: {
-                      latitude: {type: "number", description: "Latitude of the location or place"},
-                      longitude: {type: "number", description: "Longitude of the location or place"},
+                      latitude: { type: "number", description: "Latitude of the location or place" },
+                      longitude: { type: "number", description: "Longitude of the location or place" },
                     },
                     required: ["latitude", "longitude"]
                   }
@@ -131,11 +131,11 @@ export async function createOrFindAssistant() {
                   items: {
                     type: "object",
                     properties: {
-                      place_id: {type: "string", description: "The id of the business"},
-                      title: {type: "string", description: "The name of the business"},
-                      thumbnail: {type: "string", description: "URL to the thumbnail of the business"},
-                      latitude: {type: "number", description: "Latitude of the location or place"},
-                      longitude: {type: "number", description: "Longitude of the location or place"},
+                      place_id: { type: "string", description: "The id of the business" },
+                      title: { type: "string", description: "The name of the business" },
+                      thumbnail: { type: "string", description: "URL to the thumbnail of the business" },
+                      latitude: { type: "number", description: "Latitude of the location or place" },
+                      longitude: { type: "number", description: "Longitude of the location or place" },
                     },
                     required: ["place_id", "title", "thumbnail", "latitude", "longitude"]
                   }
@@ -152,9 +152,9 @@ export async function createOrFindAssistant() {
             parameters: {
               type: "object",
               properties: {
-                query: {type: "string", description: "Search query"},
-                latitude: {type: "number", description: "Latitude of the location or place"},
-                longitude: {type: "number", description: "Longitude of the location or place"},
+                query: { type: "string", description: "Search query" },
+                latitude: { type: "number", description: "Latitude of the location or place" },
+                longitude: { type: "number", description: "Longitude of the location or place" },
               },
               required: ["query"]
             },
